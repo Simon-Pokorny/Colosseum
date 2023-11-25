@@ -353,8 +353,8 @@ WorldSimApi::Pose WorldSimApi::getObjectPose(const std::string& object_name) con
 {
     Pose result;
     UAirBlueprintLib::RunCommandOnGameThread([this, &object_name, &result]() {
-        // AActor* actor = UAirBlueprintLib::FindActor<AActor>(simmode_, FString(object_name.c_str()));
-        AActor* actor = simmode_->scene_object_map.FindRef(FString(object_name.c_str()));
+        AActor* actor = UAirBlueprintLib::FindActor<AActor>(simmode_, FString(object_name.c_str()));
+        //AActor* actor = simmode_->scene_object_map.FindRef(FString(object_name.c_str()));
         result = actor ? simmode_->getGlobalNedTransform().toGlobalNed(FTransform(actor->GetActorRotation(), actor->GetActorLocation()))
                        : Pose::nanPose();
     },

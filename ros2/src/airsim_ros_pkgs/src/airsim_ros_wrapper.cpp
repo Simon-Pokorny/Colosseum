@@ -951,7 +951,14 @@ rclcpp::Time AirsimROSWrapper::update_state()
     //should be easier way to get the sim time through API, something like:
     //msr::airlib::Environment::State env = airsim_client_->simGetGroundTruthEnvironment("");
     //curr_ros_time = rclcpp::Time(env.clock().nowNanos());
+    // get the pose of an object called "FloatingObject"
+    
+    msr::airlib::Pose pose = airsim_client_->simGetObjectPose("Sphere");
 
+    //log pose with position and rotation
+    RCLCPP_INFO(nh_->get_logger(), "Sphere Pose: %f, %f, %f", pose.position.x(), pose.position.y(), pose.position.z());
+    RCLCPP_INFO(nh_->get_logger(), "Sphere Rotation: %f, %f, %f, %f", pose.orientation.w(), pose.orientation.x(), pose.orientation.y(), pose.orientation.z());  
+    
     // iterate over drones
     for (auto& vehicle_name_ptr_pair : vehicle_name_ptr_map_) {
         rclcpp::Time vehicle_time;
